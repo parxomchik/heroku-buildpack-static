@@ -127,6 +127,7 @@ http {
 
   location @prerender {
         proxy_set_header X-Prerender-Token fKaq9iCNoXrOvIkgEN6l;
+        add_header X-Prerender 'test';
         
         set $prerender 0;
         if ($http_user_agent ~* "googlebot|bingbot|yandex|baiduspider|twitterbot|facebookexternalhit|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest\/0\.|pinterestbot|slackbot|vkShare|W3C_Validator|whatsapp") {
@@ -145,9 +146,7 @@ http {
         #resolve using Google's DNS server to force DNS resolution and prevent caching of IPs
         resolver 8.8.8.8;
  
-        add_header X-Prerender $prerender;
         if ($prerender = 1) {
-            #setting prerender as a variable forces DNS resolution since nginx caches IPs and doesnt play well with load balancing
             set $prerender "service.prerender.io";
             rewrite .* /$http_x_forwarded_proto://$host$request_uri? break;
             proxy_pass http://$prerender;
