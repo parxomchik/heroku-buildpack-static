@@ -145,8 +145,8 @@ http {
         #resolve using Google's DNS server to force DNS resolution and prevent caching of IPs
         resolver 8.8.8.8;
  
+        add_header X-Prerender $prerender;
         if ($prerender = 1) {
-            
             #setting prerender as a variable forces DNS resolution since nginx caches IPs and doesnt play well with load balancing
             set $prerender "service.prerender.io";
             rewrite .* /$http_x_forwarded_proto://$host$request_uri? break;
