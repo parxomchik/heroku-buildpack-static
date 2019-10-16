@@ -56,10 +56,10 @@ http {
   <% end %>
 
     location / {
-      mruby_post_read_handler /app/bin/config/lib/ngx_mruby/headers.rb cache;
-      mruby_set $fallback /app/bin/config/lib/ngx_mruby/routes_fallback.rb cache;
-      add_header X-Prerender 'test';
-      try_files $uri @prerender;
+      #mruby_post_read_handler /app/bin/config/lib/ngx_mruby/headers.rb cache;
+      #mruby_set $fallback /app/bin/config/lib/ngx_mruby/routes_fallback.rb cache;
+
+      try_files $uri $uri/ @prerender;
     
     <% if clean_urls %>
       #try_files $uri.html $uri $uri/ $fallback;
